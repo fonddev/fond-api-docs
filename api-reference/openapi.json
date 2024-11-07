@@ -10,7 +10,7 @@
   },
   "servers": [
     {
-      "url": "http://sandbox.mintlify.com"
+      "url": "https://testnet-rpc.foundation.network"
     }
   ],
   "security": [
@@ -19,54 +19,15 @@
     }
   ],
   "paths": {
-    "/markets": {
-      "get": {
-        "description": "Returns all plants from the system that the user has access to",
-        "parameters": [
-          {
-            "name": "limit",
-            "in": "query",
-            "description": "The maximum number of results to return",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Plant response",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Plant"
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Unexpected error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Error"
-                }
-              }
-            }
-          }
-        }
-      },
+    "/perpetual": {
       "post": {
-        "description": "Creates a new plant in the store",
+        "description": "Get all open perpetual markets",
         "requestBody": {
-          "description": "Plant to add to the store",
+          "description": "markets request",
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/NewPlant"
+                "$ref": "#/components/schemas/MarketsRequest"
               }
             }
           },
@@ -74,11 +35,11 @@
         },
         "responses": {
           "200": {
-            "description": "plant response",
+            "description": "markets response",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Plant"
+                  "$ref": "#/components/schemas/MarketsResponse"
                 }
               }
             }
@@ -208,7 +169,32 @@
     }
   },
   "components": {
-    "schemas": {
+    "Request": {
+        "required": [
+          "id",
+          "jsonrpc",
+          "method"
+        ],
+        "type": "object",
+        "properties": {
+          "id" : "1",
+          "jsonrpc": "2.0"
+        }
+      },
+      "MarketsRequest": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/Request"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "method" : "ob_query_open_markets",
+              "params": []
+            }
+          }
+        ]
+      },
       "Plant": {
         "required": [
           "name"
@@ -269,4 +255,3 @@
       }
     }
   }
-}
