@@ -85,6 +85,7 @@
     {
       "group": "Perpetual Exchange",
       "pages": [
+        "api-reference/endpoint/get-markets",
         "api-reference/endpoint/get",
         "api-reference/endpoint/create",
         "api-reference/endpoint/delete"
